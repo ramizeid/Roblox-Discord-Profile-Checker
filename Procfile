@@ -1,0 +1,1 @@
+worker: python vision_selfbot.py
