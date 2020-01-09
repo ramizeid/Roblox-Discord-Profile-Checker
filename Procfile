@@ -1,1 +1,1 @@
-worker: python vision_selfbot.py
+worker: python vision_main.py
