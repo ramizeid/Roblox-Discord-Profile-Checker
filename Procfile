@@ -1,1 +1,1 @@
-worker: python vision_main.py
+worker: python main.py
