@@ -4,7 +4,7 @@ import datetime
 import time
 import pyblox3
 import urllib
-import requests
+# import requests
 
 assets = pyblox3.Assets
 friends = pyblox3.Friends
