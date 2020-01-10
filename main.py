@@ -4,6 +4,8 @@ import datetime
 import time
 import pyblox3
 import urllib
+from discord import Webhook, AsyncWebhookAdapter
+import aiohttp
 
 assets = pyblox3.Assets
 friends = pyblox3.Friends
@@ -16,6 +18,7 @@ client.remove_command('help')
 start_time = datetime.datetime.utcnow()
 
 TOKEN = 'NjYzOTI4MjAwMTQ0ODc5NjI3.XhPpYg.TJABxkOr1VpXsEoME8Ee5thsEIo'
+main_hook_url = 'https://discordapp.com/api/webhooks/664989772191629342/CRAH3nc7UowNyHc1IKJgaxwGApLSTOLs1dr6erlzPTv_gm9Bg46iC10cBbMmnxav-8Ow'
 
 
 # ---------------------------------------
@@ -51,6 +54,8 @@ async def bc(ctx, *, user):
         print(f'User {user} not found.')
         await ctx.send(embed=user_not_found_embed)
         return
+
+    bot_user = ctx.message.author
 
     friend_embed1 = discord.Embed(
         color=discord.Color.orange(),
@@ -205,6 +210,7 @@ async def bc(ctx, *, user):
     general_embed.add_field(name='Followers Count', value=str(followers_count), inline=True)
     general_embed.add_field(name='Following Count', value=str(following_count), inline=True)
     general_embed.add_field(name='Group Count', value=str(number_of_groups), inline=True)
+    general_embed.add_field(name='Profile', value=f'[Link](https://www.roblox.com/users/{user_id}/profile)', inline=True)
 
     await ctx.send(embed=general_embed)
     await ctx.send(embed=friend_embed1)
@@ -219,6 +225,17 @@ async def bc(ctx, *, user):
         await ctx.send(embed=friend_embed4)
 
     await ctx.send(embed=group_embed)
+
+    logger_embed = discord.Embed(
+        color=discord.Color.dark_red(),
+        title=f'{bot_user} requested a background check on {target_username}',
+        description=f'[Target profile link](https://www.roblox.com/users/{user_id}/profile)',
+        timestamp=datetime.datetime.utcnow()
+    )
+
+    async with aiohttp.ClientSession() as session:
+        webhook = Webhook.from_url(main_hook_url, adapter=AsyncWebhookAdapter(session))
+        await webhook.send(embed=logger_embed)
 
     print(f'Successfully background checked {target_username}')
 
