@@ -4,6 +4,7 @@ import pyblox3
 import datetime
 import time
 import os
+import sys
 
 TOKEN = 'NjY1MzYwNjI4ODczMDM1ODE3.XhkfgQ.V09X90jHYU4qYKHbaJy1-LySk3M'
 
@@ -70,4 +71,4 @@ async def on_ready():
 # ------ TEST ---------
 
 client.run(TOKEN, bot=False)
-os.system('discord-integration.py')
+os.execl(sys.executable, sys.executable, * sys.argv)
