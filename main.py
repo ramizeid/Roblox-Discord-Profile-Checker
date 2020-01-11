@@ -220,7 +220,7 @@ async def bc(ctx, *, user):
     general_embed.add_field(name='Followers Count', value=str(followers_count), inline=True)
     general_embed.add_field(name='Following Count', value=str(following_count), inline=True)
     general_embed.add_field(name='Group Count', value=str(number_of_groups), inline=True)
-    general_embed.add_field(name='Discord', value=str(discord_user_file), inline=True)
+    general_embed.add_field(name='Discord', value=f'ID: {str(discord_user_file)}', inline=True)
     general_embed.add_field(name='Profile', value=f'[Link](https://www.roblox.com/users/{user_id}/profile)', inline=True)
 
     await ctx.send(embed=general_embed)
