@@ -67,7 +67,8 @@ async def on_ready():
 
     print('restarting discord integration')
     await client.logout()
-    client.run(TOKEN, bot=False)
+
+client.run(TOKEN, bot=False)
 
 # ------ TEST ---------
 
