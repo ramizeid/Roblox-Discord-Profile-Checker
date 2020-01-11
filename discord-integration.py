@@ -6,6 +6,7 @@ import time
 import os
 import sys
 
+
 TOKEN = 'NjY1MzYwNjI4ODczMDM1ODE3.XhkfgQ.V09X90jHYU4qYKHbaJy1-LySk3M'
 
 client = commands.Bot(command_prefix='.', self_bot=True)
@@ -67,9 +68,8 @@ async def on_ready():
             pass
 
     print('restarting discord integration')
-    await client.logout()
+
+    os.system('discord-integration.py')
 
 # ------ TEST ---------
-
-while True:
-    client.run(TOKEN, bot=False)
+client.run(TOKEN, bot=False)
