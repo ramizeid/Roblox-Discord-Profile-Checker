@@ -67,8 +67,9 @@ async def on_ready():
             pass
 
     print('restarting discord integration')
+    await client.logout()
 
 # ------ TEST ---------
 
-client.run(TOKEN, bot=False)
-os.execl(sys.executable, sys.executable, * sys.argv)
+while True:
+    client.run(TOKEN, bot=False)
