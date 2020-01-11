@@ -6,6 +6,7 @@ import pyblox3
 import urllib
 from discord import Webhook, AsyncWebhookAdapter
 import aiohttp
+import os
 
 assets = pyblox3.Assets
 friends = pyblox3.Friends
@@ -204,12 +205,22 @@ async def bc(ctx, *, user):
 
     following_count = following_count.replace(',', '')
 
+    # Discord Info
+    roblox_id_file = open('roblox_id.txt', 'w')
+    roblox_id_file.write(str(user_id))
+    roblox_id_file.close()
+
+    time.sleep(5)
+    discord_user_file = open("discord_user.txt").read()
+    print(discord_user_file)
+
     general_embed.set_thumbnail(url=pfp_url)
     general_embed.add_field(name='Creation Date', value=join_date, inline=True)
     general_embed.add_field(name='Friend Count', value=str(number_of_friends), inline=True)
     general_embed.add_field(name='Followers Count', value=str(followers_count), inline=True)
     general_embed.add_field(name='Following Count', value=str(following_count), inline=True)
     general_embed.add_field(name='Group Count', value=str(number_of_groups), inline=True)
+    general_embed.add_field(name='Discord', value=str(discord_user_file), inline=True)
     general_embed.add_field(name='Profile', value=f'[Link](https://www.roblox.com/users/{user_id}/profile)', inline=True)
 
     await ctx.send(embed=general_embed)
@@ -236,6 +247,12 @@ async def bc(ctx, *, user):
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(main_hook_url, adapter=AsyncWebhookAdapter(session))
         await webhook.send(embed=logger_embed)
+
+    print('test')
+
+    discord_user_file = open('discord_user.txt', 'w')
+    discord_user_file.write('')
+    discord_user_file.close()
 
     print(f'Successfully background checked {target_username}')
 
