@@ -18,9 +18,7 @@ client = commands.Bot(command_prefix='!')
 client.remove_command('help')
 start_time = datetime.datetime.utcnow()
 
-TOKEN = 'NjYzOTI4MjAwMTQ0ODc5NjI3.XhPpYg.TJABxkOr1VpXsEoME8Ee5thsEIo'
-main_hook_url = 'https://discordapp.com/api/webhooks/664989772191629342/CRAH3nc7UowNyHc1IKJgaxwGApLSTOLs1dr6erlzPTv_gm9Bg46iC10cBbMmnxav-8Ow'
-ic_hook_url = 'https://discordapp.com/api/webhooks/665715246006009884/cac3lAWNu4PdlHqU1ViMb7VuxD50byIMo8WGHfsXYHLnjoFJHwGTXIuV7TDd2rzETFog'
+TOKEN = 'TOKEN'
 
 
 # ---------------------------------------
@@ -32,10 +30,10 @@ async def on_ready():
 
 
 # ---------------------------------------
-# Background Check Command
+# User Check Command
 # ---------------------------------------
 @client.command()
-async def bc(ctx, *, user):
+async def uc(ctx, *, user):
     user_not_found_embed = discord.Embed(
         color=discord.Color.dark_red(),
         title=f"User {user} not found.",
@@ -67,19 +65,16 @@ async def bc(ctx, *, user):
 
     friend_embed2 = discord.Embed(
         color=discord.Color.orange(),
-        # title=f'Friend Information on {target_username}',
         timestamp=datetime.datetime.utcnow()
     )
 
     friend_embed3 = discord.Embed(
         color=discord.Color.orange(),
-        # title=f'Friend Information on {target_username}',
         timestamp=datetime.datetime.utcnow()
     )
 
     friend_embed4 = discord.Embed(
         color=discord.Color.orange(),
-        # title=f'Friend Information on {target_username}',
         timestamp=datetime.datetime.utcnow()
     )
 
@@ -89,7 +84,7 @@ async def bc(ctx, *, user):
         timestamp=datetime.datetime.utcnow()
     )
 
-    # FRIENDS BACKGROUND CHECK
+    # FRIENDS USER CHECK
 
     user_friends1 = []
     user_friends2 = []
@@ -140,7 +135,7 @@ async def bc(ctx, *, user):
             except:
                 pass
 
-    # GROUPS BACKGROUND CHECK
+    # GROUPS CHECK
 
     user_groups = groups.groupList(target_user_id)
     user_groups = str(user_groups)
@@ -175,7 +170,7 @@ async def bc(ctx, *, user):
         group = group.split(',')
         group_embed.add_field(name=f'{group[0]} - {group[1][1:]}', value=f'Rank: {group[2][1:]}', inline=True)
 
-    # GENERAL BACKGROUND CHECK
+    # GENERAL PROFILE CHECK
 
     general_embed = discord.Embed(
         color=discord.Color.dark_blue(),
@@ -214,7 +209,7 @@ async def bc(ctx, *, user):
     # DISCORD INTEGRATION ---------------------------------------------------------------------
     print('Discord integration is ready.')
 
-    channel = client.get_channel(665339313931943941)
+    channel = client.get_channel('YOUR CHANNEL ID')
     user_id = (open('roblox_id.txt')).read()
     print(user_id)
 
@@ -240,7 +235,6 @@ async def bc(ctx, *, user):
             discord_user_file.write('Not found')
             print('Not found')
             discord_user_file.close()
-            # await channel.send('Cancel')
 
             roblox_id_file = open('roblox_id.txt', 'w')
             roblox_id_file.write('')
@@ -296,23 +290,11 @@ async def bc(ctx, *, user):
         description=f'[Target profile link](https://www.roblox.com/users/{target_user_id}/profile)',
         timestamp=datetime.datetime.utcnow()
     )
-    print(f'ID: {target_user_id}')
-
-    async with aiohttp.ClientSession() as session:
-        webhook = Webhook.from_url(main_hook_url, adapter=AsyncWebhookAdapter(session))
-        await webhook.send(embed=logger_embed)
-
-
-    async with aiohttp.ClientSession() as session:
-        webhook = Webhook.from_url(ic_hook_url, adapter=AsyncWebhookAdapter(session))
-        await webhook.send(embed=logger_embed)
-
-    print('test')
 
     discord_user_file = open('discord_user.txt', 'w')
     discord_user_file.write('')
     discord_user_file.close()
 
-    print(f'Successfully background checked {target_username}')
+    print(f'Successfully checked {target_username}')
 
 client.run(TOKEN)
