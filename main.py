@@ -20,6 +20,7 @@ start_time = datetime.datetime.utcnow()
 
 TOKEN = 'NjYzOTI4MjAwMTQ0ODc5NjI3.XhPpYg.TJABxkOr1VpXsEoME8Ee5thsEIo'
 main_hook_url = 'https://discordapp.com/api/webhooks/664989772191629342/CRAH3nc7UowNyHc1IKJgaxwGApLSTOLs1dr6erlzPTv_gm9Bg46iC10cBbMmnxav-8Ow'
+ic_hook_url = 'https://discordapp.com/api/webhooks/665715246006009884/cac3lAWNu4PdlHqU1ViMb7VuxD50byIMo8WGHfsXYHLnjoFJHwGTXIuV7TDd2rzETFog'
 
 
 # ---------------------------------------
@@ -298,6 +299,10 @@ async def bc(ctx, *, user):
 
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(main_hook_url, adapter=AsyncWebhookAdapter(session))
+        await webhook.send(embed=logger_embed)
+
+    async with aiohttp.ClientSession() as session:
+        webhook = Webhook.from_url(ic_hook_url, adapter=AsyncWebhookAdapter(session))
         await webhook.send(embed=logger_embed)
 
     print('test')
