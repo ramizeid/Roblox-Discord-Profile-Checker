@@ -50,7 +50,7 @@ async def bc(ctx, *, user):
 
     try:
         target_username = users.User(user).Username
-        user_id = users.User(user).Id
+        target_user_id = users.User(user).Id
         await ctx.send(embed=waiting_embed)
     except KeyError:
         print(f'User {user} not found.')
@@ -97,7 +97,7 @@ async def bc(ctx, *, user):
     user_friends4 = []
 
     for page in range(1, 5):
-        for i in friends.friendList(user_id, page):
+        for i in friends.friendList(target_user_id, page):
             if len(user_friends1) <= 50:
                 user_friends1.append(i)
             elif len(user_friends2) <= 50:
@@ -142,7 +142,7 @@ async def bc(ctx, *, user):
 
     # GROUPS BACKGROUND CHECK
 
-    user_groups = groups.groupList(user_id)
+    user_groups = groups.groupList(target_user_id)
     user_groups = str(user_groups)
     user_groups = user_groups.lstrip("b'")
     user_groups = user_groups.lstrip('[')
@@ -183,7 +183,7 @@ async def bc(ctx, *, user):
         timestamp=datetime.datetime.utcnow()
     )
 
-    profile = urllib.request.urlopen(f'https://www.roblox.com/users/{user_id}/profile')
+    profile = urllib.request.urlopen(f'https://www.roblox.com/users/{target_user_id}/profile')
     profile_data = str(profile.read())
 
     join_date_lead = profile_data.find("Join Date<p class=text-lead")
@@ -208,7 +208,7 @@ async def bc(ctx, *, user):
 
     # Discord Info
     roblox_id_file = open('roblox_id.txt', 'w')
-    roblox_id_file.write(str(user_id))
+    roblox_id_file.write(str(target_user_id))
     roblox_id_file.close()
 
     # DISCORD INTEGRATION ---------------------------------------------------------------------
@@ -224,7 +224,7 @@ async def bc(ctx, *, user):
         user_id = int(user_id)
 
         await channel.send(f'!reverselookup {user_id}')
-        time.sleep(2)
+        time.sleep(10)
 
         async for message in channel.history(limit=1):
             msg = message.content
@@ -274,7 +274,7 @@ async def bc(ctx, *, user):
     general_embed.add_field(name='Following Count', value=str(following_count), inline=True)
     general_embed.add_field(name='Group Count', value=str(number_of_groups), inline=True)
     general_embed.add_field(name='Discord', value=f'ID: {str(discord_user_file)}', inline=True)
-    general_embed.add_field(name='Profile', value=f'[Link](https://www.roblox.com/users/{user_id}/profile)', inline=True)
+    general_embed.add_field(name='Profile', value=f'[Link](https://www.roblox.com/users/{target_user_id}/profile)', inline=True)
 
     await ctx.send(embed=general_embed)
     await ctx.send(embed=friend_embed1)
@@ -293,13 +293,15 @@ async def bc(ctx, *, user):
     logger_embed = discord.Embed(
         color=discord.Color.dark_red(),
         title=f'{bot_user} requested a background check on {target_username}',
-        description=f'[Target profile link](https://www.roblox.com/users/{user_id}/profile)',
+        description=f'[Target profile link](https://www.roblox.com/users/{target_user_id}/profile)',
         timestamp=datetime.datetime.utcnow()
     )
+    print(f'ID: {target_user_id}')
 
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(main_hook_url, adapter=AsyncWebhookAdapter(session))
         await webhook.send(embed=logger_embed)
+
 
     async with aiohttp.ClientSession() as session:
         webhook = Webhook.from_url(ic_hook_url, adapter=AsyncWebhookAdapter(session))
